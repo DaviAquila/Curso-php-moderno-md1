@@ -13,12 +13,20 @@
     </header>
     <main>
         <?php 
-            $valorusuario = $_GET['valor'];
+
+            $valorusuario = $_GET['valor'] ?? 0;
             $cotacao = 5.27;
 
             $valorfinal = $valorusuario / $cotacao;
 
-            echo ("Seus R$ $valorusuario equivalem a US$") . number_format($valorfinal,2,",",".");
+            //Jeito mais fácil 
+            // echo "Seus R\$" . number_format($valorusuario, 2, "." , ",") . " equivalem a US\$" . number_format($valorfinal , 2, "." , ",");
+
+            //Jeito certo com Formatação de moedas com internacionalização
+
+            $padrao = numfmt_create("pt_BR" , NumberFormatter::CURRENCY);
+
+            echo "Seus " . numfmt_format_currency($padrao, $valorusuario, "BRL") . " equivalem a " . numfmt_format_currency($padrao, $valorfinal , "USD");
 
         ?>
         
